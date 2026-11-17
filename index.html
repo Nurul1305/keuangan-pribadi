@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#4f46e5" />
+    <title>Keuangan Pribadi</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Ringkasan</p>
+          <h1>Keuangan Pribadi</h1>
+        </div>
+        <button id="refreshBtn" class="icon-button" aria-label="Refresh data">
+          ↻
+        </button>
+      </header>
+
+      <main class="page active" id="dashboardPage">
+        <section class="panel filter-panel">
+          <div class="filter-chips" id="rangeChips">
+            <button class="chip active" data-range="today">Hari ini</button>
+            <button class="chip" data-range="week">Minggu</button>
+            <button class="chip" data-range="month">Bulan</button>
+            <button class="chip" data-range="custom">Custom</button>
+          </div>
+          <div class="custom-range hidden" id="customRangeWrap">
+            <label>
+              Dari
+              <input type="date" id="startDate" />
+            </label>
+            <label>
+              Sampai
+              <input type="date" id="endDate" />
+            </label>
+          </div>
+        </section>
+
+        <section class="summary-grid">
+          <article class="summary-card income">
+            <span>Pemasukan</span>
+            <strong id="incomeTotal">Rp 0</strong>
+          </article>
+          <article class="summary-card expense">
+            <span>Pengeluaran</span>
+            <strong id="expenseTotal">Rp 0</strong>
+          </article>
+          <article class="summary-card balance">
+            <span>Saldo</span>
+            <strong id="balanceTotal">Rp 0</strong>
+          </article>
+        </section>
+
+        <section class="panel chart-panel">
+          <div class="panel-header">
+            <h2>Pengeluaran per kategori</h2>
+          </div>
+          <canvas id="categoryChart" width="360" height="180"></canvas>
+        </section>
+
+        <section class="panel insight-panel">
+          <div class="panel-header">
+            <h2>Insight</h2>
+          </div>
+          <div class="insight-grid">
+            <article>
+              <small>Kategori terbesar</small>
+              <strong id="topCategory">-</strong>
+            </article>
+            <article>
+              <small>Rata-rata harian</small>
+              <strong id="dailyAverage">Rp 0</strong>
+            </article>
+            <article>
+              <small>Periode sebelumnya</small>
+              <strong id="comparePeriod">-</strong>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <main class="page" id="historyPage">
+        <section class="panel history-panel">
+          <div class="history-toolbar">
+            <input id="searchInput" type="search" placeholder="Cari transaksi..." />
+            <select id="categoryFilter">
+              <option value="all">Semua kategori</option>
+            </select>
+          </div>
+          <div id="transactionList" class="transaction-list"></div>
+        </section>
+      </main>
+
+      <main class="page" id="insightsPage">
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Tren & perbandingan</h2>
+          </div>
+          <div id="trendInsights" class="trend-insights"></div>
+        </section>
+      </main>
+
+      <button id="fab" class="fab" aria-label="Tambah transaksi">+ Tambah Transaksi</button>
+
+      <nav class="bottom-nav" aria-label="Navigasi utama">
+        <button class="nav-item active" data-target="dashboardPage">
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-target="historyPage">
+          <span>Riwayat</span>
+        </button>
+        <button class="nav-item" data-target="insightsPage">
+          <span>Insight</span>
+        </button>
+      </nav>
+    </div>
+
+    <div id="transactionModal" class="modal hidden" aria-modal="true" role="dialog">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2>Tambah transaksi</h2>
+          <button id="closeModalBtn" class="close-button" aria-label="Tutup">✕</button>
+        </div>
+
+        <form id="transactionForm">
+          <div class="field-group">
+            <label for="type">Jenis</label>
+            <select id="type" required>
+              <option value="Pemasukan">Pemasukan</option>
+              <option value="Pengeluaran">Pengeluaran</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="date">Tanggal</label>
+            <input id="date" type="date" required />
+          </div>
+
+          <div class="field-group">
+            <label for="category">Kategori</label>
+            <input id="category" type="text" placeholder="Contoh: Gaji atau Makanan" required />
+          </div>
+
+          <div class="field-group">
+            <label for="amount">Nominal</label>
+            <input id="amount" type="number" min="0" step="1000" placeholder="Rp 0" required />
+          </div>
+
+          <div class="field-group">
+            <label for="note">Catatan</label>
+            <textarea id="note" rows="3" placeholder="Opsional"></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="cancelBtn" class="secondary-btn">Batal</button>
+            <button type="submit" class="primary-btn">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

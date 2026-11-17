@@ -1,0 +1,17 @@
+{
+  "name": "Keuangan Pribadi",
+  "short_name": "Keuangan",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f4f7ff",
+  "theme_color": "#4f46e5",
+  "description": "Aplikasi catatan keuangan pribadi untuk Google Sheets",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
